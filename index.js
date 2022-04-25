@@ -13,33 +13,32 @@ const TEST_GUILD_ID = process.env['TEST_GUILD_ID']
 const commands = [ping]
 
 // When the client is ready, this only runs once
-client.once('ready', () => {
+client.once('ready', async () => {
     console.log(`Logged in as ${client.user.tag}!`)
     client.user.setActivity(`Begrudgingly alive`);
     // Registering the commands in the client
     const CLIENT_ID = client.user.id;
     const rest = new REST({ version: '9' }).setToken(TOKEN);
-    (async () => {
-        try {
-            if (!TEST_GUILD_ID) {
-                await rest.put(
-                    Routes.applicationCommands(CLIENT_ID), {
-                        body: commands.map((command) => command.data.toJSON())
-                    },
-                );
-                console.log('Successfully registered application commands globally');
-            } else {
-                await rest.put(
-                    Routes.applicationGuildCommands(CLIENT_ID, TEST_GUILD_ID), {
-                        body: commands.map((command) => command.data.toJSON())
-                    },
-                );
-                console.log('Successfully registered application commands for development guild');
-            }
-        } catch (error) {
-            if (error) console.error(error);
+
+    try {
+        if (!TEST_GUILD_ID) {
+            await rest.put(
+                Routes.applicationCommands(CLIENT_ID), {
+                    body: commands.map((command) => command.data.toJSON())
+                },
+            );
+            console.log('Successfully registered application commands globally');
+        } else {
+            await rest.put(
+                Routes.applicationGuildCommands(CLIENT_ID, TEST_GUILD_ID), {
+                    body: commands.map((command) => command.data.toJSON())
+                },
+            );
+            console.log('Successfully registered application commands for development guild');
         }
-    })();
+    } catch (error) {
+        if (error) console.error(error);
+    }
 });
 
 client.on('interactionCreate', async interaction => {
