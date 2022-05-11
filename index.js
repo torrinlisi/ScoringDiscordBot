@@ -1,8 +1,13 @@
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
 import { Client, Intents, Collection } from 'discord.js';
-import { ping } from './commands/ping.js'
 import dotenv from 'dotenv'
+
+import { AddScore } from './commands/addScore.js'
+import { Bussy } from './commands/bussy.js'
+import { DeductScore } from './commands/deductScore.js'
+import { Ping } from './commands/ping.js'
+
 
 dotenv.config()
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] })
@@ -10,7 +15,7 @@ const TOKEN = process.env['TOKEN']
 // for testing only
 const TEST_GUILD_ID = process.env['TEST_GUILD_ID']
 
-const commands = [ping]
+const commands = [Ping, AddScore, Bussy, DeductScore]
 
 // When the client is ready, this only runs once
 client.once('ready', async () => {

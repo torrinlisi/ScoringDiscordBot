@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 
-export const ping = {
+export const Ping = {
     data: new SlashCommandBuilder()
         .setName('ping')
         .setDescription('Will consider responding'),
